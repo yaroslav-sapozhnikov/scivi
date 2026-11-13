@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sci-visual — научные визуализации</title>
+  <meta name="description" content="Интерактивные научные визуализации простым языком: космос, физика, математика.">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("sci-visual-theme"); } catch (e) {}
+      if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span>sci&#8209;<span class="brand-mark">visual</span></span>
+      <span class="brand-sub">наука — наглядно</span>
+    </a>
+    <nav aria-label="Основная навигация">
+      <a href="#catalog" class="active">Визуализации</a>
+    </nav>
+    <div class="spacer"></div>
+    <button class="theme-toggle" id="themeToggle" type="button"></button>
+  </header>
+
+  <section class="hero">
+    <span class="hero-badge">интерактивный научпоп</span>
+    <h1>Наука — <span class="accent">наглядно</span></h1>
+    <p class="intro">
+      Короткие статьи с интерактивными визуализациями: крутите параметры,
+      запускайте эксперименты и смотрите, как устроены явления —
+      без лишней формальности, только суть.
+    </p>
+  </section>
+
+  <main class="catalog" id="catalog">
+    <div class="search">
+      <span class="search-icon">⌕</span>
+      <input type="search" id="search" placeholder="Поиск визуализаций…" aria-label="Поиск визуализаций">
+    </div>
+
+    <nav class="categories" id="categories" aria-label="Категории">
+      <button class="cat active" data-cat="all">Все</button>
+      <button class="cat" data-cat="space">Космос</button>
+      <button class="cat" data-cat="physics">Физика</button>
+      <button class="cat" data-cat="math">Математика</button>
+    </nav>
+
+    <div class="cards" id="cards">
+      <a class="card" data-cat="space" href="orbit.html">
+        <div class="card-thumb thumb-space" aria-hidden="true"></div>
+        <div class="card-body">
+          <span class="card-cat">Космос</span>
+          <div class="card-title">Вывод на орбиту</div>
+          <div class="card-desc">
+            Пушка Ньютона: короткая статья и симуляция. Задайте угол и скорость
+            снаряда — упадёт он обратно, выйдет на орбиту или покинет планету
+            навсегда.
+          </div>
+        </div>
+      </a>
+      <a class="card" data-cat="math" href="ellipse.html">
+        <div class="card-thumb thumb-math" aria-hidden="true"></div>
+        <div class="card-body">
+          <span class="card-cat">Математика</span>
+          <div class="card-title">Фокусы эллипса</div>
+          <div class="card-desc">
+            Луч из одного фокуса эллипса всегда отражается во второй.
+            Крутите эксцентриситет и угол луча — свойство работает всегда.
+          </div>
+        </div>
+      </a>
+    </div>
+    <p class="empty" id="empty" hidden>Ничего не нашлось — попробуйте другую категорию или запрос.</p>
+  </main>
+
+  <footer class="site-footer">
+    <span>sci-visual · тестовая версия</span>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

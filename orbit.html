@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вывод на орбиту — sci-visual</title>
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("sci-visual-theme"); } catch (e) {}
+      if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="viz-header">
+    <a class="back" href="index.html">&larr; sci-visual</a>
+    <h1>Вывод на орбиту</h1>
+    <div class="spacer"></div>
+    <button class="theme-toggle" id="themeToggle" type="button"></button>
+  </header>
+
+  <main class="article-main">
+    <article class="article">
+      <p class="article-lead">
+        Почему спутники не падают на Землю? Строго говоря, падают —
+        просто вечно промахиваются мимо. Разберёмся, как это работает,
+        на мысленном эксперименте, который придумал ещё Ньютон.
+      </p>
+
+      <h2>Пушка Ньютона</h2>
+      <p>
+        Представьте пушку на вершине горы. Выстрелили — снаряд летит по дуге
+        и падает. Добавили пороху — улетел дальше. Но планета круглая: её
+        поверхность изгибается и словно уходит из-под летящего снаряда. Если
+        разогнать снаряд достаточно сильно, поверхность будет уходить ровно
+        с той же скоростью, с какой он падает. Снаряд станет вечно падать
+        и вечно промахиваться. Это и есть орбита — не отмена падения,
+        а бесконечный промах.
+      </p>
+
+      <h2>Величины, которые понадобятся</h2>
+      <p>
+        <strong>g</strong> — ускорение свободного падения: на сколько метров
+        в секунду падающее тело ускоряется за каждую секунду. У поверхности
+        Земли g ≈ 9,8 м/с²: за первую секунду падения скорость вырастает
+        до ~10 м/с, за вторую — до ~20.
+      </p>
+      <p>От чего зависит g, подсказывает формула:</p>
+      <div class="formula">g = G · M / R²</div>
+      <p>
+        <strong>M</strong> — масса планеты: чем массивнее тело, тем сильнее
+        оно тянет. <strong>R</strong> — радиус планеты: чем дальше поверхность
+        от центра, тем слабее притяжение, причём зависимость квадратичная —
+        вдвое дальше, вчетверо слабее. <strong>G</strong> — гравитационная
+        постоянная, универсальный «коэффициент притяжения» природы: она одна
+        и та же для яблока, Луны и галактик.
+      </p>
+
+      <h2>Первая космическая скорость</h2>
+      <div class="formula">v₁ = √(G · M / R) = √(g · R)</div>
+      <p>
+        Это скорость, при которой снаряд «падает мимо» планеты ровно по кругу.
+        Для Земли v₁ ≈ 7,9 км/с — примерно в 25 раз быстрее пули. Меньше v₁ —
+        снаряд рано или поздно упадёт. Чуть больше — получится вытянутый
+        эллипс, как у комет и некоторых спутников.
+      </p>
+
+      <h2>Вторая космическая скорость</h2>
+      <div class="formula">v₂ = √(2 · G · M / R) = √2 · v₁</div>
+      <p>
+        Скорость убегания. Для Земли v₂ ≈ 11,2 км/с. Если снаряд быстрее,
+        эллипс размыкается в гиперболу — и гравитация уже никогда его
+        не вернёт.
+      </p>
+
+      <h2>Насколько честная эта симуляция</h2>
+      <p>
+        Визуализация происходит в идеальных условиях. Мы договорились, что
+        атмосферы нет (в реальности снаряд на скорости 8 км/с сгорел бы
+        в воздухе мгновенно); планета — идеальный шар, вся масса которого
+        будто собрана в центре; планета не вращается; а кроме неё и снаряда
+        во Вселенной ничего нет.
+      </p>
+      <p>
+        В реальности на орбиту влияет гораздо больше факторов: сопротивление
+        атмосферы, сплюснутость и неоднородность планеты, притяжение Луны
+        и Солнца и даже давление солнечного света. Поэтому настоящим
+        спутникам орбиту приходится регулярно корректировать.
+      </p>
+      <p>
+        Расчёт выполнен по законам Ньютона, без учёта эффектов теории
+        относительности. Это честное упрощение: на скоростях визуализации
+        (до 500 км/с — около 0,17 % скорости света) релятивистские эффекты
+        настолько малы, что ими можно смело пренебречь.
+      </p>
+
+      <h2>Попробуйте сами</h2>
+      <p>
+        Ниже — та самая пушка. Выберите небесное тело, поставьте пушку
+        на поверхность или в космос, задайте угол и скорость — и смотрите,
+        что получится. Кнопки «= v₁» и «= v₂» подставляют космические
+        скорости для текущей позиции пушки.
+      </p>
+    </article>
+
+    <section class="viz-section" aria-label="Интерактивная визуализация">
+      <div class="controls">
+        <div class="ctrl ctrl-wide">
+          <h3>Небесное тело</h3>
+          <div class="row">
+            <span id="bodyName">Земля</span>
+            <span class="value" id="massValue"></span>
+          </div>
+          <input type="range" id="massSlider" min="0" max="1000" value="0">
+          <div class="ticks" id="massTicks"></div>
+        </div>
+
+        <div class="ctrl ctrl-wide">
+          <h3>Начальная скорость</h3>
+          <div class="row">
+            <span class="note">Логарифмическая шкала: от 500 м/с до 500 км/с</span>
+            <span class="value" id="speedValue"></span>
+          </div>
+          <input type="range" id="speedSlider" min="0" max="1000" value="0">
+          <div class="ticks" id="speedTicks"></div>
+          <div class="quick">
+            <button class="btn small" id="btnV1">= v&#8321; (орбита)</button>
+            <button class="btn small" id="btnV2">= v&#8322; (уход)</button>
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <h3>Позиция пушки</h3>
+          <div class="mode-switch">
+            <label><input type="radio" name="mode" value="surface" checked><span>На поверхности</span></label>
+            <label><input type="radio" name="mode" value="space"><span>В пространстве</span></label>
+          </div>
+        </div>
+
+        <div class="ctrl ctrl-angle">
+          <div class="row">
+            <h3>Угол ствола</h3>
+            <span class="value" id="angleValue"></span>
+          </div>
+          <input type="range" id="angleSlider" min="0" max="180" value="15">
+        </div>
+
+        <div class="ctrl ctrl-fire">
+          <button class="btn primary" id="fireBtn">Запуск</button>
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="scene"></canvas>
+        <div class="canvas-hint">Клик — поставить пушку &middot; колесо — масштаб &middot; перетаскивание — сдвиг</div>
+        <div class="outcome" id="outcome">
+          <div class="outcome-title" id="outcomeTitle"></div>
+          <div class="outcome-detail" id="outcomeDetail"></div>
+        </div>
+      </div>
+
+      <dl class="stats-bar">
+        <div class="stat"><dt>Масса</dt><dd id="dataMass"></dd></div>
+        <div class="stat"><dt>Радиус</dt><dd id="dataRadius"></dd></div>
+        <div class="stat"><dt>Плотность</dt><dd id="dataRho"></dd></div>
+        <div class="stat"><dt>g у поверхности</dt><dd id="dataG"></dd></div>
+        <div class="stat"><dt>v&#8321; у поверхности</dt><dd id="dataV1"></dd></div>
+        <div class="stat"><dt>v&#8322; у поверхности</dt><dd id="dataV2"></dd></div>
+      </dl>
+
+      <p class="note">
+        Симуляция идеализирована: без атмосферы, вращения планеты
+        и влияния других тел; расчёт ньютоновский. Подробности и формулы —
+        в статье выше.
+      </p>
+    </section>
+
+    <aside class="sidebar" aria-label="Рекомендуемые визуализации">
+      <h2 class="sidebar-title">Смотрите также</h2>
+      <a class="card rel-card" href="ellipse.html">
+        <div class="card-body">
+          <span class="card-cat">Математика</span>
+          <div class="card-title">Фокусы эллипса</div>
+          <div class="card-desc">
+            Луч из одного фокуса эллипса всегда попадает во второй.
+            Меняйте вытянутость и угол — и проверьте сами.
+          </div>
+        </div>
+      </a>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <span>sci-visual · тестовая версия</span>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/physics.js"></script>
+  <script src="js/orbit.js"></script>
+</body>
+</html>
